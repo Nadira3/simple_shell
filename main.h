@@ -17,4 +17,5 @@ char *_strcpy(char *str1, char *str2);
 int wordlen(char *str);
 int _strlen(char *str);
 int numWords(char *str);
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 #endif
