@@ -27,7 +27,7 @@ int main(void)
 			_putchar(*(ptr++));
 		buf = malloc(BUFSIZ);
 		n = read(STDIN_FILENO, buf, BUFSIZE);
-		if (n == -1)
+		if (n == -1 || n == 0)
 			return (1);
 		buf[n - 1] = '\0'; 
 		arg_tokens = parse_input(buf); /* check if parse_input equals to 0 */
