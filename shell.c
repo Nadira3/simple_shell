@@ -19,7 +19,7 @@ int main(void)
 	char **env = {NULL};
 	size_t n = 0, m = 0;
 	int i, j;
-	pid_t my_pid;
+	pid_t my_pid; /* handle test case echo '/bin/ls' | ./shell */
 
 	while (1)
 	{
@@ -31,8 +31,10 @@ int main(void)
 			return (1);
 		buf[n - 1] = '\0'; 
 		arg_tokens = parse_input(buf); /* check if parse_input equals to 0 */
-		for (i = 0; i < numWords(buf); i++)
+		for (i = 0; i < numWords(buf); i++) /* this should not be here,*/
 			printf("%s", arg_tokens[i]);
+		/* this is the bug, i used it to debug, now it functions as a pipe, remove thus and see how it responds.*/
+		/* need to write a getline function that will fix this issue, i think*/
 		my_pid = fork();
 		if (my_pid == 0)
 		{
