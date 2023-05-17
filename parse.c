@@ -37,3 +37,13 @@ char **parse_input(char *user_input)
 	user_input_array[i] = NULL;
 	return (user_input_array);
 }
+/**
+ * _getline - gets a line of input from a file stream
+ * @lineptr: pointer to array of words
+ * @n: pointer to array containing lenght of buffer
+ * @stream: file stream
+ */
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
+{
+	return (0);
+}
