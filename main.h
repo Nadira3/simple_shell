@@ -6,7 +6,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdbool.h>
-#include <wait.h>
+#include <sys/wait.h>
 #define BUFSIZE 1024
 char *skipSpaces(char *str);
 char **parse_input(char *user_input);
