@@ -10,39 +10,58 @@ int _putchar(char c)
 	return (0);
 }
 /**
+ * _puts - prints a string to standard output
+ * @str: string
+ * Return: 0
+ */
+int _puts(char *str)
+{
+	while (*str)
+	{
+		_putchar(*str);
+		str++;
+	}
+	return (0);
+}
+/**
  * main - entry point of thr program
  * Return: 0
  */
 int main(void)
 {
 	char *prompt = "$ ", *buf, *ptr = prompt, **arg_tokens;
-	char **env = {NULL};
-	size_t n = 0, m = 0;
-	int i, j;
+	char **env = NULL;
+	size_t n = 0;
+	int i, j, is_terminal = isatty(STDIN_FILENO);
 	pid_t my_pid; /* handle test case echo '/bin/ls' | ./shell */
 
 	while (1)
 	{
-		while (*ptr)
-			_putchar(*(ptr++));
-		buf = malloc(BUFSIZ);
+		if (is_terminal)
+			_puts(ptr);
+		if (!(buf = malloc(BUFSIZ)))
+			return (-1);
 		n = read(STDIN_FILENO, buf, BUFSIZE);
-		if (n == -1 || n == 0)
-			return (1);
-		buf[n - 1] = '\0'; 
-		arg_tokens = parse_input(buf); /* check if parse_input equals to 0 */
-		/*for (i = 0; i < numWords(buf); i++)  this should not be here,
-			printf("%s", arg_tokens[i]);*/
-		/* this is the bug, i used it to debug, now it functions as a pipe, remove thus and see how it responds.*/
-		/* need to write a getline function that will fix this issue, i think*/
-		i = numWords(buf);
-		my_pid = fork();
-		if (my_pid == 0)
+		if (n <= 0)
 		{
-			if ((execve(arg_tokens[0], arg_tokens, env)) == -1)
-				perror("execve");
+			if (n == 0 && is_terminal)
+				_putchar('\n');
+			return (1);
 		}
-		wait(NULL);
+		buf[n - 1] = '\0';
+		if (!(arg_tokens = parse_input(buf)))
+			perror("malloc");
+		i = num_words(buf);
+		if (access(arg_tokens[0], X_OK) != -1)
+		{
+			my_pid = fork();
+			if (my_pid == 0)
+				if ((execve(arg_tokens[0], arg_tokens, env) == -1))
+						perror("execve");
+			wait(NULL);
+		}
+		else
+			perror("access");
 		free(buf);
 		j = i;
 		while (j >= 0)
