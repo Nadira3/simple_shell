@@ -27,11 +27,12 @@ int _puts(char *str)
  * main - entry point of thr program
  * Return: 0
  */
-int main(void)
+int main(int ac, char **av, char **envp)
 {
 	char *prompt = "$ ", *buf, *ptr = prompt, **arg_tokens;
-	char **env = NULL;
+	char *prog_name = av[0];
 	size_t n = 0;
+	(void)ac;
 	int i, j, is_terminal = isatty(STDIN_FILENO);
 	pid_t my_pid; /* handle test case echo '/bin/ls' | ./shell */
 
@@ -50,18 +51,18 @@ int main(void)
 		}
 		buf[n - 1] = '\0';
 		if (!(arg_tokens = parse_input(buf)))
-			perror("malloc");
+			perror(prog_name);
 		i = num_words(buf);
 		if (access(arg_tokens[0], X_OK) != -1)
 		{
 			my_pid = fork();
 			if (my_pid == 0)
-				if ((execve(arg_tokens[0], arg_tokens, env) == -1))
-						perror("execve");
+				if ((execve(arg_tokens[0], arg_tokens, envp) == -1))
+						perror(prog_name);
 			wait(NULL);
 		}
 		else
-			perror("access");
+			perror(prog_name);
 		free(buf);
 		j = i;
 		while (j >= 0)
