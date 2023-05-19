@@ -1,34 +1,41 @@
 #include "main.h"
 /**
- * skipSpaces - skips spaces
+ * skip_spaces - skips spaces
  * @str: string argument
  * Return: pointer to next character in the string
  */
-char *skipSpaces(char *str)
+char *skip_spaces(char *str)
 {
-	while (*str)
+	if (str)
 	{
-		if (*str != ' ')
-			break;
-		str++;
+		while (*str)
+		{
+			if (*str != ' ')
+				break;
+			str++;
+		}
 	}
 	return (str);
 }
 /**
- * numWords - finds the number of words in a string
+ * num_words - finds the number of words in a string
  * @str: string
  * Return: number of words
  */
-int numWords(char *str)
+int num_words(char *str)
 {
 	int i = 0;
-	char *ptr = str;
+	char *ptr;
 
-	while (*ptr)
+	if (str)
 	{
-		if (*ptr != ' ' && (*(ptr + 1) == ' ' || *(ptr + 1) == '\0'))
-			i++;
-		ptr++;
+		ptr = str;
+		while (*ptr)
+		{
+			if (*ptr != ' ' && (*(ptr + 1) == ' ' || *(ptr + 1) == '\0'))
+				i++;
+			ptr++;
+		}
 	}
 	return (i);
 }
