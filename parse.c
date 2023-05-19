@@ -6,15 +6,17 @@
  */
 char **parse_input(char *user_input)
 {
-	char **user_input_array, *start_to_write = user_input, *file_path = "/bin/";
+	char **user_input_array = NULL, *start_to_write = user_input, *file_path = "/bin/";
 	int i = 0, j, len;
 
-	user_input_array = malloc(sizeof(char *) * (numWords(user_input) + 1));
+	user_input_array = malloc(sizeof(char *) * (num_words(user_input) + 1));
 	if (!user_input_array)
 		return (0);
 	while (*start_to_write)
 	{ 
-		start_to_write = skipSpaces(start_to_write);
+		start_to_write = skip_spaces(start_to_write);
+		if (*start_to_write == '\0')
+                    break;
 		len = wordlen(start_to_write);
 		user_input_array[i] = i == 0 ? malloc(len + 6) : malloc(len + 1); /* find the executable */
 		if (!user_input_array[i])
