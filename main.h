@@ -5,9 +5,8 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <stdbool.h>
 #include <sys/wait.h>
-#define BUFSIZE 1024
+#define BUFSIZE 50
 
 typedef struct var
 {
@@ -16,6 +15,7 @@ typedef struct var
 } var_func;
 char *skip_spaces(char *str);
 char **parse_input(char *user_input);
+char *path(char *command);
 char *read_input(void);
 char *_strcat(char *str1, char *str2);
 char *_strcpyp(char *str1, char *str2);
@@ -25,4 +25,7 @@ int _strlen(char *str);
 int num_words(char *str);
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 char (*interpret_func(char *arg_command))(char *arg);
+int _strcmp(char *str1, char *str2);
+char *_strdup(char *str);
+char *_strtok(char *str, char *delim);
 #endif
