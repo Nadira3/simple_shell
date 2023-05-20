@@ -1,4 +1,5 @@
 #include "main.h"
+#include <string.h>
 /**
  * _putchar - prints a character to standard output
  * @c: character
@@ -54,6 +55,13 @@ int main(int ac, char **av, char **env)
 			perror(prog_name);
 		i = num_words(buf) + 1;
 		filepath = path(arg_tokens[0]);
+		if ((strcmp(arg_tokens[0], "exit")) == 0)
+		{
+			if (arg_tokens[1] != NULL)
+				return (atoi(arg_tokens[1]));
+			else
+				return (0);
+		}
 		if (access(filepath, X_OK) != -1)
 		{
 			my_pid = fork();

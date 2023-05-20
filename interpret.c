@@ -41,7 +41,7 @@ char (*interpret_func(char *arg_command))(char *arg)
 
 	while (interpreted_command[i].str)
 	{
-		if (!(_strcmp(arg_command, interpreted_command[i].str)))
+//		if (!(_strcmp(arg_command, interpreted_command[i].str)))
 			return (interpreted_command[i].func_ptr);
 	}
 	return (interpreted_command[i].func_ptr);
