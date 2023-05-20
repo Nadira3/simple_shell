@@ -1,4 +1,5 @@
 #include "main.h"
+#include <string.h>
 /**
  * _putchar - prints a character to standard output
  * @c: character
@@ -53,6 +54,15 @@ int main(int ac, char **av, char **envp)
 		if (!(arg_tokens = parse_input(buf)))
 			perror(prog_name);
 		i = num_words(buf);
+		// check if any of the args is "exit" and break the loop
+
+		if ((strcmp(arg_tokens[0], "/bin/exit")) == 0)
+		{
+			if (arg_tokens[1] != NULL)
+				return (atoi(arg_tokens[1]));
+			else
+				return (0);
+		}
 		if (access(arg_tokens[0], X_OK) != -1)
 		{
 			my_pid = fork();
