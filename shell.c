@@ -27,10 +27,10 @@ int _puts(char *str)
  * main - entry point of thr program
  * Return: 0
  */
-int main(int ac, char **av, char **envp)
+int main(int ac, char **av, char **env)
 {
-	char *prompt = "$ ", *buf, *ptr = prompt, **arg_tokens;
-	char *prog_name = av[0];
+	char *prompt = "$ ", *buf = NULL, *ptr = prompt, **arg_tokens = NULL;
+	char *prog_name = av[0], *filepath = NULL;
 	size_t n = 0;
 	(void)ac;
 	int i, j, is_terminal = isatty(STDIN_FILENO);
@@ -52,18 +52,21 @@ int main(int ac, char **av, char **envp)
 		buf[n - 1] = '\0';
 		if (!(arg_tokens = parse_input(buf)))
 			perror(prog_name);
-		i = num_words(buf);
-		if (access(arg_tokens[0], X_OK) != -1)
+		i = num_words(buf) + 1;
+		filepath = path(arg_tokens[0]);
+		if (access(filepath, X_OK) != -1)
 		{
 			my_pid = fork();
 			if (my_pid == 0)
-				if ((execve(arg_tokens[0], arg_tokens, envp) == -1))
+				if ((execve(filepath, arg_tokens, env) == -1))
 						perror(prog_name);
 			wait(NULL);
 		}
 		else
 			perror(prog_name);
 		free(buf);
+		if (!(_strcmp(filepath, arg_tokens[0])))
+				free(filepath);
 		j = i;
 		while (j >= 0)
 			free(arg_tokens[j--]);
