@@ -27,11 +27,10 @@ int _strcmp(char *str1, char *str2)
  * executable if it exists
  * @arg_command: array of command-line input in tokenized form
  * Return: pointer to built-in function if present or NULL
- */
+ *
 char (*interpret_func(char *arg_command))(char *arg)
 {
 	var_func interpreted_command[] = {
-		{"env", env_func},
 		{"cd", cd_func},
 		{"exit", exit_func},
 		{"setenv", setenv_func},
@@ -47,3 +46,6 @@ char (*interpret_func(char *arg_command))(char *arg)
 	}
 	return (interpreted_command[i].func_ptr);
 }
+char *setenv_func(char *arg)
+{
+}*/
