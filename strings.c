@@ -69,6 +69,6 @@ char *_strcat(char *str1, char *str2)
 
 	while (*ptr1)
 		ptr1++;
-	_strcpyp(ptr1, str2);
+	_strcpyp(ptr1, ptr2);
 	return (str1);
 }
