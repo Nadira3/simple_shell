@@ -27,25 +27,37 @@ int _strcmp(char *str1, char *str2)
  * executable if it exists
  * @arg_command: array of command-line input in tokenized form
  * Return: pointer to built-in function if present or NULL
- *
-char (*interpret_func(char *arg_command))(char *arg)
+ */
+char (*interpret_func(char *arg_command))(char **arg)
 {
 	var_func interpreted_command[] = {
-		{"cd", cd_func},
-		{"exit", exit_func},
 		{"setenv", setenv_func},
-		{"unsetenv", unsetenv_func},
 		{NULL, NULL}
 	};
 	int i = 0;
 
 	while (interpreted_command[i].str)
 	{
-//		if (!(_strcmp(arg_command, interpreted_command[i].str)))
+		if ((_strcmp(arg_command, interpreted_command[i].str)))
 			return (interpreted_command[i].func_ptr);
+		i++;
 	}
 	return (interpreted_command[i].func_ptr);
 }
-char *setenv_func(char *arg)
+/**
+ * setenv_func - setenv builtin implementation
+ * @arg_tokens: array of arguments
+ * Return: char
+ */
+char setenv_func(char **arg_tokens)
 {
-}*/
+	/*char *env_var = _getenv(name), **env_ptr = environ;
+	int i;
+
+	if (env_var && overwrite)
+	{	
+		free(env_var);
+	}*/
+	_puts("setenv is working\n");
+	return (1);
+}
