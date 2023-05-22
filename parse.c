@@ -2,47 +2,42 @@
 
 char *path(char *command)
 {
-	char *filepath = getenv("PATH");
-	char *env_path = NULL;
+	char *filepath = _getenv("PATH"), *env_path = NULL;
+	char *path_copy = _strdup(filepath), *token = _strtok(path_copy, ":");
 	size_t env_path_len;
 
-	char *path_copy = _strdup(filepath);
-
-	char *token = _strtok(path_copy, ":");
 	while (token != NULL)
 	{
 		if (*command == '/')
 		{
+			free(filepath);
 			free(path_copy);
-			return command;
+			return (command);
 		}
-
 		env_path_len = _strlen(token) + _strlen(command) + 2;
 		env_path = malloc(env_path_len);
 		if (env_path == NULL)
 		{
+			free(filepath);
 			free(path_copy);
-			return NULL;
+			return (NULL);
 		}
-
 		_strcpy(env_path, token);
 		_strcat(env_path, "/");
 		_strcat(env_path, command);
-
 		if (access(env_path, X_OK) == 0)
 		{
+			free(filepath);
 			free(path_copy);
-			return env_path;
+			return (env_path);
 		}
-
 		free(env_path);
 		env_path = NULL;
-
 		token = _strtok(NULL, ":");
 	}
-
 	free(path_copy);
-	return env_path;
+	free(filepath);
+	return (env_path);
 }
 
 /**
