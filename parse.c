@@ -82,5 +82,52 @@ char **parse_input(char *user_input)
  */
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 {
-	return (0);
+	size_t num_copied = 0;
+	
+	if (*n <= 0)
+		return (1);
+
+	while (*stream != '\n')
+	{
+		**lineptr = *stream;
+		*lineptr++;
+		stream++;
+		num_copied++;
+
+		if (num_copied == *n)
+		{
+			char **temp_buf = malloc(*n);
+			if (temp_buf == NULL)
+				return (-1);
+
+			size_t i = 0;
+			// Save in temp_buf
+			while (i < *n)
+			{
+				**temp_buf = **lineptr;
+				*temp_buf++;
+				*lineptr++;
+				i++;
+			}
+			// Increase buff and copy from temp to buff
+			
+			**lineptr = malloc(*n * 2);
+
+			if (lineptr == NULL)
+				return (-1);
+
+			size_t j = 0;
+			while (j < n)
+			{
+				**lineptr = **temp_buf;
+				*temp_buf++;
+				*lineptr++;
+				j++;
+			}
+			free(temp_buf);
+		}
+	}
+	lineptr[num_copied + 1] = '\n';
+	*n = num_copied;
+	return (*n);
 }
