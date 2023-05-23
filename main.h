@@ -15,6 +15,13 @@ typedef struct var
 	char *str;
 	char (*func_ptr)(char **arg);
 } var_func;
+typedef struct env_var
+{
+	char *key;
+	char equals;
+	char *value;
+	struct env_var *next;
+} env_list;
 char *skip_spaces(char *str);
 char **parse_input(char *user_input);
 char *path(char *command);
