@@ -117,12 +117,12 @@ int changedir(char *path)
 
 int get_pid_and_return_value(char *commandpattern)
 {
-	if (*commandpattern == "$$")
+	if (_strcmp(commandpattern, "$$"))
 	{
 		pid_t parentpid = getppid();
 		return (parentpid);
 	}
-	else if (*commandpattern == "$?")
+	else if (_strcmp(commandpattern, "$?"))
 	{
 		int processreturnvalue;
 		return (processreturnvalue);
