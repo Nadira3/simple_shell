@@ -107,11 +107,12 @@ int changedir(char *path)
 	}
 	else
 	{
-		char *currentpath = getcwd(NULL, NULL);
-		setenv_func(currentpath);
+		char *currentpath = getcwd(NULL, 128);
+		setenv_func(&currentpath);
 		if (!chdir(path))
 			return (1);
 	}
+	return (0);
 }
 
 int get_pid_and_return_value(char *commandpattern)
@@ -126,6 +127,5 @@ int get_pid_and_return_value(char *commandpattern)
 		int processreturnvalue;
 		return (processreturnvalue);
 	}
-	else
-		return (1);
+	return (1);
 }
