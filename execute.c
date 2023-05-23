@@ -113,3 +113,19 @@ int changedir(char *path)
 			return (1);
 	}
 }
+
+int get_pid_and_return_value(char *commandpattern)
+{
+	if (*commandpattern == "$$")
+	{
+		pid_t parentpid = getppid();
+		return (parentpid);
+	}
+	else if (*commandpattern == "$?")
+	{
+		int processreturnvalue;
+		return (processreturnvalue);
+	}
+	else
+		return (1);
+}
