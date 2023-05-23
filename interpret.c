@@ -51,13 +51,28 @@ char (*interpret_func(char *arg_command))(char **arg)
  */
 char setenv_func(char **arg_tokens)
 {
-	/*char *env_var = _getenv(name), **env_ptr = environ;
-	int i;
+	char *env_key = arg_tokens[1], *env_value = arg_tokens[2], *env_ptr;
+	char **env = environ;
+	size_t i = 0, value_len = _strlen(env_value), key_len = _strlen(env_key);
 
-	if (env_var && overwrite)
-	{	
-		free(env_var);
-	}*/
-	_puts("setenv is working\n");
+	if (!env_key || !env_value)
+		return (0);
+	while (env[i])
+	{
+		if (!(strncmp(env_key, env[i], key_len)))
+		{
+			env_ptr = env[i] + key_len + 1;
+			strcpy(env_ptr, env_value);
+		}
+		i++;
+	}
+	env[i] = malloc(key_len + value_len + 3);
+	if(!env[i])
+		return (0);
+	_strcpy(env[i], env_key);
+	_strcat(env[i], "=");
+	_strcat(env[i], env_value);
+	i++;
+	env[i] = NULL;
 	return (1);
 }
