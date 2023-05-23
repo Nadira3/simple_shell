@@ -95,3 +95,21 @@ int execute(char *filepath, char **arg_tokens, char **env)
 	}
 	return (1);
 }
+
+int changedir(char *path)
+{
+	char *prev_dir = NULL;
+	if (*path == '-')
+	{
+		*prev_dir = _getenv("PWD");
+		if (!chdir(prev_dir))
+			return (1);
+	}
+	else
+	{
+		char *currentpath = getcwd(NULL, NULL);
+		setenv_func(currentpath);
+		if (!chdir(path))
+			return (1);
+	}
+}
