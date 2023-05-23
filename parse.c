@@ -80,7 +80,7 @@ char **parse_input(char *user_input)
  * @n: pointer to array containing lenght of buffer
  * @stream: file stream
  */
-ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
+/**ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 {
 	size_t num_copied = 0;
 	
@@ -130,4 +130,4 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 	lineptr[num_copied + 1] = '\n';
 	*n = num_copied;
 	return (*n);
-}
+}*/
