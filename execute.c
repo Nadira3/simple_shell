@@ -96,7 +96,12 @@ int execute(char *filepath, char **arg_tokens, char **env)
 	return (1);
 }
 
-int changedir(char *path)
+/**
+ * changedir - Change directory to given path
+ * @path: pointer to new path
+ * Return: New path
+ */
+char *changedir(char *path)
 {
 	char *prev_dir = NULL;
 	if (*path == '-')
@@ -115,6 +120,11 @@ int changedir(char *path)
 	return (0);
 }
 
+/**
+ * get_pid_and_return_value - Expand $$ and $? variable arguments
+ * @commandpattern: Variable pattern to expand
+ * Return: Int represent parent ID or last return value
+ */
 int get_pid_and_return_value(char *commandpattern)
 {
 	if (_strcmp(commandpattern, "$$"))
