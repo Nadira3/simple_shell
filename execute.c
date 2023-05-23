@@ -101,7 +101,7 @@ int changedir(char *path)
 	char *prev_dir = NULL;
 	if (*path == '-')
 	{
-		*prev_dir = _getenv("PWD");
+		prev_dir = _getenv("PWD");
 		if (!chdir(prev_dir))
 			return (1);
 	}
