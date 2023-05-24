@@ -5,10 +5,11 @@
  */
 int main(int ac, char **av, char **env)
 {
-	int i, j, n, flag = 0, is_terminal = isatty(STDIN_FILENO);
+	int i, j, flag = 0, is_terminal = isatty(STDIN_FILENO);
 	char *prompt = "$ ", *buf = NULL, *ptr = prompt, **arg_tokens = NULL;
 	char (*builtin_func)(char **arg), *prog_name = av[0], *filepath = NULL;
 	(void)ac;
+	size_t n = 0, arr_size = 0;
 
 	while (1)
 	{
@@ -16,7 +17,7 @@ int main(int ac, char **av, char **env)
 			_puts(ptr);
 		if (!(buf = malloc(BUFSIZE)))
 			return (-1);
-		n = read(STDIN_FILENO, buf, BUFSIZE);
+		n = getline(&buf, &arr_size, stdin);
 		if (readcheck(n, buf, is_terminal))
 			return (1);
 		if (bufcheck(buf))
