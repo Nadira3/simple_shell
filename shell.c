@@ -1,4 +1,14 @@
 #include "main.h"
+void sig_handler(int signum)
+{
+	char *prompt = "\n$ ";
+
+	(void)signum;
+
+	signal(SIGINT, sig_handler);
+	write(STDIN_FILENO, prompt, 3);
+
+}
 /**
  * main - entry point of thr program
  * Return: 0
@@ -11,13 +21,18 @@ int main(int ac, char **av, char **env)
 	size_t n = 0, arr_size = 0;
 	(void)ac;
 
+	signal(SIGINT, sig_handler);
 	while (1)
 	{
 		if (is_terminal)
 			_puts(ptr);
 		n = getline(&buf, &arr_size, stdin);
-		if (readcheck(n, buf, is_terminal) == -1)
-			return (1);
+		if (n == -1)
+		{
+			free(buf);
+			perror("getline");
+			exit(EXIT_FAILURE);
+		}
 		if (bufcheck(buf))
 			continue;
 		buf[n - 1] = '\0';
@@ -43,9 +58,9 @@ int main(int ac, char **av, char **env)
 		}
 		if (!(_strcmp(filepath, arg_tokens[0])))
 			free(filepath);
-		free(buf);
-		free_buf(arg_tokens, i);
 		ptr = prompt;
+		free_buf(arg_tokens, i);
 	}
+	free(buf);
 	return (0);
 }
