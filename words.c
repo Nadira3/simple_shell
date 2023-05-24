@@ -76,7 +76,6 @@ int _atoi(char *s)
 char* _getenv(char* key) 
 {
 	extern char **environ;
-	char* env_var;
 	char* var_name;
 	char* value;
 	int i, j, key_len, value_len, k = 0;
@@ -86,7 +85,6 @@ char* _getenv(char* key)
 
 	for (i = 0; environ[i] != NULL; i++) 
 	{
-		env_var = environ[i];
 		key_len = _strlen(key);
 		var_name = malloc(key_len + 1);
 	/* a strncmp works better here but i forgot, cant rewrite, lol */

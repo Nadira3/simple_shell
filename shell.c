@@ -5,10 +5,10 @@
  */
 int main(int ac, char **av, char **env)
 {
+	int i, j, n, flag = 0, is_terminal = isatty(STDIN_FILENO);
 	char *prompt = "$ ", *buf = NULL, *ptr = prompt, **arg_tokens = NULL;
 	char (*builtin_func)(char **arg), *prog_name = av[0], *filepath = NULL;
 	(void)ac;
-	int i, j, n, flag = 0, is_terminal = isatty(STDIN_FILENO);
 
 	while (1)
 	{
@@ -26,17 +26,22 @@ int main(int ac, char **av, char **env)
 			perror(prog_name);
 		i = num_words(buf);
 		filepath = path(arg_tokens[0]);
-		if (j = exitcheck(arg_tokens, buf, i, &flag))
+		j = exitcheck(arg_tokens, buf, i, &flag);
+		if (j)
 			return (flag ? 0 : j);
 		if (filepath)
 		{
 			if (!(execute(filepath, arg_tokens, env)))
 				perror(prog_name);
 		}
-		else if (builtin_func = interpret_func(arg_tokens[0]))
-			builtin_func(arg_tokens);
 		else
-			perror(prog_name);
+		{
+			builtin_func = interpret_func(arg_tokens[0]);
+			if (builtin_func)
+				builtin_func(arg_tokens);
+			else
+				perror(prog_name);
+		}
 		free(buf);
 		if (!(_strcmp(filepath, arg_tokens[0])))
 			free(filepath);
