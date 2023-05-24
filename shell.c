@@ -31,7 +31,6 @@ int main(int ac, char **av, char **env)
 		if (n == -1)
 		{
 			free(buf);
-			perror("getline");
 			exit(EXIT_FAILURE);
 		}
 		if (bufcheck(buf))
