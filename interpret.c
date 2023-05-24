@@ -70,7 +70,7 @@ char (*interpret_func(char *arg_command))(char **arg)
 char setenv_func(char **arg_tokens)
 {
 	char *env_key = arg_tokens[1], *env_value = arg_tokens[2], *env_ptr;
-	char **env = environ;
+	char **env = env;
 	size_t i = 0, value_len = _strlen(env_value), key_len = _strlen(env_key);
 
 	if (!env_key || !env_value)
