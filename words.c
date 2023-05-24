@@ -87,7 +87,7 @@ char* _getenv(char* key)
 	for (i = 0; environ[i] != NULL; i++) 
 	{
 		env_var = environ[i];
-		key_len = strlen(key);
+		key_len = _strlen(key);
 		var_name = malloc(key_len + 1);
 	/* a strncmp works better here but i forgot, cant rewrite, lol */
 		if (!var_name)
@@ -97,7 +97,7 @@ char* _getenv(char* key)
 		var_name[j++] = '\0';
 		if (var_name != NULL && _strcmp(var_name, key) == 1)
 		{
-			value_len = strlen(environ[i]);
+			value_len = _strlen(environ[i]);
 			value = malloc(value_len + 1);
 			if (!value)
 				return (0);

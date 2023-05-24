@@ -1,4 +1,22 @@
 #include "main.h"
+int _strncmp(char *str1, char *str2, size_t len)
+{
+	char *ptr1 = str1, *ptr2 = str2;
+	size_t i = 0;
+
+	if (ptr1 && ptr2)
+	{
+		while (i < len)
+		{
+			if (*ptr2 != *ptr1)
+				return (1);
+			ptr1++;
+			ptr2++;
+			i++;
+		}
+	}
+	return (0);
+}
 /**
  * _strcmp - compares to string to check if they are an exact match
  * @str1: first string
@@ -59,10 +77,10 @@ char setenv_func(char **arg_tokens)
 		return (0);
 	while (env[i])
 	{
-		if (!(strncmp(env_key, env[i], key_len)))
+		if (!(_strncmp(env_key, env[i], key_len)))
 		{
 			env_ptr = env[i] + key_len + 1;
-			strcpy(env_ptr, env_value);
+			_strcpy(env_ptr, env_value);
 		}
 		i++;
 	}

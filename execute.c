@@ -108,14 +108,14 @@ char *changedir(char *path)
 	{
 		prev_dir = _getenv("PWD");
 		if (!chdir(prev_dir))
-			return (1);
+			return (0);
 	}
 	else
 	{
 		char *currentpath = getcwd(NULL, 128);
 		setenv_func(&currentpath);
 		if (!chdir(path))
-			return (1);
+			return (0);
 	}
 	return (0);
 }
@@ -124,7 +124,7 @@ char *changedir(char *path)
  * get_pid_and_return_value - Expand $$ and $? variable arguments
  * @commandpattern: Variable pattern to expand
  * Return: Int represent parent ID or last return value
- */
+ *
 int get_pid_and_return_value(char *commandpattern)
 {
 	if (_strcmp(commandpattern, "$$"))
@@ -138,4 +138,4 @@ int get_pid_and_return_value(char *commandpattern)
 		return (processreturnvalue);
 	}
 	return (1);
-}
+}*/
