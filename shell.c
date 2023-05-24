@@ -8,8 +8,8 @@ int main(int ac, char **av, char **env)
 	int i, j, flag = 0, is_terminal = isatty(STDIN_FILENO);
 	char *prompt = "$ ", *buf = NULL, *ptr = prompt, **arg_tokens = NULL;
 	char (*builtin_func)(char **arg), *prog_name = av[0], *filepath = NULL;
-	(void)ac;
 	size_t n = 0, arr_size = 0;
+	(void)ac;
 
 	while (1)
 	{
