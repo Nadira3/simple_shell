@@ -21,7 +21,6 @@ int bufcheck(char *buf)
 {
 	if (*buf == '\n' || *(skip_spaces(buf)) == '\n')
 	{
-		free(buf);
 		return (1);
 	}
 	return (0);
@@ -36,12 +35,12 @@ int bufcheck(char *buf)
  */
 int readcheck(int n, char *buf, int is_terminal)
 {
+	(void)buf;
 	if (n <= 0)
 	{
 		if (n == 0 && is_terminal)
 			_putchar('\n');
-		free(buf);
-		return (!n ? 1 : -1);
+		return (-1);
 	}
 	return (0);
 }

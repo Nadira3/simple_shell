@@ -15,10 +15,8 @@ int main(int ac, char **av, char **env)
 	{
 		if (is_terminal)
 			_puts(ptr);
-		if (!(buf = malloc(BUFSIZE)))
-			return (-1);
 		n = getline(&buf, &arr_size, stdin);
-		if (readcheck(n, buf, is_terminal))
+		if (readcheck(n, buf, is_terminal) == -1)
 			return (1);
 		if (bufcheck(buf))
 			continue;
@@ -43,9 +41,9 @@ int main(int ac, char **av, char **env)
 			else
 				perror(prog_name);
 		}
-		free(buf);
 		if (!(_strcmp(filepath, arg_tokens[0])))
 			free(filepath);
+		free(buf);
 		free_buf(arg_tokens, i);
 		ptr = prompt;
 	}
