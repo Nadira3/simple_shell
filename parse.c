@@ -12,7 +12,8 @@ char *path(char *command)
 		{
 			free(filepath);
 			free(path_copy);
-			return (command);
+			env_path = _strdup(command);
+			return (env_path);
 		}
 		env_path_len = _strlen(token) + _strlen(command) + 2;
 		env_path = malloc(env_path_len);

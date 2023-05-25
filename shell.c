@@ -56,8 +56,7 @@ int main(int ac, char **av, char **env)
 			else
 				perror(prog_name);
 		}
-		if (!(_strcmp(filepath, arg_tokens[0])))
-			free(filepath);
+		free(filepath);
 		ptr = prompt;
 		free_buf(arg_tokens, i);
 	}
