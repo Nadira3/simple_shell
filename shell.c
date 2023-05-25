@@ -1,13 +1,12 @@
 #include "main.h"
+char *buf;
 void sig_handler(int signum)
 {
-	char *prompt = "\n$ ";
-
 	(void)signum;
 
 	signal(SIGINT, sig_handler);
-	write(STDIN_FILENO, prompt, 3);
-
+	free(buf);
+	exit(EXIT_SUCCESS);
 }
 /**
  * main - entry point of thr program
@@ -16,13 +15,14 @@ void sig_handler(int signum)
 int main(int ac, char **av, char **env)
 {
 	int i, j, flag = 0, is_terminal = isatty(STDIN_FILENO);
-	char *prompt = "$ ", *buf = NULL, *ptr = prompt, **arg_tokens = NULL;
+	char *prompt = "$ ", *ptr = prompt, **arg_tokens = NULL;
 	char (*builtin_func)(char **arg), *prog_name = av[0], *filepath = NULL;
 	ssize_t n = 0;
 	size_t arr_size = 0;
 	(void)ac;
 
 	signal(SIGINT, sig_handler);
+	buf = NULL;
 	while (1)
 	{
 		if (is_terminal)
