@@ -5,6 +5,7 @@ char *path(char *command)
 	char *filepath = _getenv("PATH"), *env_path = NULL;
 	char *path_copy = _strdup(filepath), *token = _strtok(path_copy, ":");
 	size_t env_path_len;
+	struct stat st;
 
 	while (token != NULL)
 	{
@@ -12,7 +13,7 @@ char *path(char *command)
 		{
 			free(filepath);
 			free(path_copy);
-			env_path = _strdup(command);
+			env_path = stat(command, &st) != 0 ? NULL : _strdup(command);
 			return (env_path);
 		}
 		env_path_len = _strlen(token) + _strlen(command) + 2;
@@ -30,7 +31,6 @@ char *path(char *command)
 		{
 			free(filepath);
 			free(path_copy);
-			perror("access");
 			return (env_path);
 		}
 		free(env_path);

@@ -55,7 +55,12 @@ int main(int ac, char **av, char **env)
 			if (builtin_func)
 				builtin_func(arg_tokens);
 			else
+			{
+				free_buf(arg_tokens, i);
+				free(buf);
 				perror(prog_name);
+				exit(EXIT_FAILURE);
+			}
 		}
 		free(filepath);
 		ptr = prompt;
