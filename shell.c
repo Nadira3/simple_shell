@@ -6,6 +6,7 @@ void sig_handler(int signum)
 
 	signal(SIGINT, sig_handler);
 	free(buf);
+	_putchar(10);
 	exit(EXIT_SUCCESS);
 }
 /**
