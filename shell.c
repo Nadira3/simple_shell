@@ -31,8 +31,6 @@ int main(int ac, char **av, char **env)
 		n = getline(&buf, &arr_size, stdin);
 		if (n == -1)
 		{
-			if (!arr_size)
-				_putchar(10);
 			free(buf);
 			exit(EXIT_SUCCESS);
 		}

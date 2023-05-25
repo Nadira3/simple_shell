@@ -8,7 +8,7 @@ char *path(char *command)
 
 	while (token != NULL)
 	{
-		if (*command == '/')
+		if (*command == '/' || *command == '.')
 		{
 			free(filepath);
 			free(path_copy);
@@ -30,6 +30,7 @@ char *path(char *command)
 		{
 			free(filepath);
 			free(path_copy);
+			perror("access");
 			return (env_path);
 		}
 		free(env_path);

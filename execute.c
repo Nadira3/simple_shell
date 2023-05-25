@@ -89,7 +89,7 @@ int execute(char *filepath, char **arg_tokens, char **env)
 		my_pid = fork();
 		if (my_pid == 0)
 		{
-			if ((execve(filepath, arg_tokens, env) == -1))
+			if ((execve(filepath, arg_tokens, environ) == -1))
 				return (0);
 		}
 		else if (my_pid == -1)
