@@ -82,14 +82,20 @@ int exitcheck(char **arg_tokens, char *buf, int i, int *flag)
 int execute(char *filepath, char **arg_tokens, char **env)
 {
 	pid_t my_pid;
+	int status;
 
 	if (filepath)
 	{
 		my_pid = fork();
 		if (my_pid == 0)
+		{
 			if ((execve(filepath, arg_tokens, env) == -1))
 				return (0);
-		wait(NULL);
+		}
+		else if (my_pid == -1)
+			return (0);
+		else
+			wait(&status);
 		return (1);
 	}
 	return (1);

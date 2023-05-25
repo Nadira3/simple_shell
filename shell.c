@@ -31,8 +31,9 @@ int main(int ac, char **av, char **env)
 		n = getline(&buf, &arr_size, stdin);
 		if (n == -1)
 		{
+			_putchar(10);
 			free(buf);
-			exit(EXIT_FAILURE);
+			exit(EXIT_SUCCESS);
 		}
 		if (bufcheck(buf))
 			continue;
