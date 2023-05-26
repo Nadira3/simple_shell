@@ -20,7 +20,7 @@ void sig_handler(int signum)
  * @env: Environment to use
  * Return: 0
  */
-int main(int ac, char **av, char **env)
+int main(int ac __attribute__((unused)), char **av, char **env)
 {
 	int i, n = 0, j, flag = 0, is_terminal = isatty(STDIN_FILENO), exit_ = 0;
 	char *p = "$ ", **arg = NULL, (*fun)(char **arg), *name = av[0], *pth = NULL;
