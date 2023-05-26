@@ -73,17 +73,16 @@ int _atoi(char *s)
  * @key: key of environment variable
  * Return: pointer to value of key
  */
-char* _getenv(char* key) 
+char *_getenv(char *key)
 {
-	extern char **environ;
-	char* var_name;
-	char* value;
+	char *var_name;
+	char *value;
 	int i, j, key_len, value_len, k = 0;
 
 	if (key == NULL)
-		return NULL;
+		return (NULL);
 
-	for (i = 0; environ[i] != NULL; i++) 
+	for (i = 0; environ[i] != NULL; i++)
 	{
 		key_len = _strlen(key);
 		var_name = malloc(key_len + 1);
