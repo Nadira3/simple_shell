@@ -28,7 +28,6 @@ char **parse_input(char *user_input);
 void getlinecheck(int n, char *buf);
 char *path(char *command);
 void sig_handler(int signum);
-void sigquitHandler(int signum);
 char *read_input(void);
 char *_strcat(char *str1, char *str2);
 char *_strcpyp(char *str1, char *str2);
@@ -52,5 +51,6 @@ int execute(char *filepath, char **arg_tokens, char **env);
 int _putchar(char c);
 int _puts(char *str);
 char setenv_func(char **arg);
+char env_func(char **arg);
 int _isnumber(char *c);
 #endif

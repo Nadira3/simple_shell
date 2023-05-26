@@ -67,3 +67,18 @@ char *_strdup(char *str)
 	str1[j] = '\0';
 	return (str1);
 }
+/**
+ * env_func - prints the environment variables
+ * @arg: argument tokens
+ * Return: 0 because its not necessary
+ */
+char env_func(char **arg)
+{
+	(void)arg;
+	char **env_ = environ;
+	int i;
+
+	for (i = 0; env_[i]; i++)
+		_puts(env_[i]);
+	return (0);
+}

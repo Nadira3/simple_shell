@@ -132,6 +132,7 @@ char (*interpret_func(char *arg_command))(char **arg)
 {
 	var_func interpreted_command[] = {
 		{"setenv", setenv_func},
+		{"env", env_func},
 		{NULL, NULL}};
 	int i = 0;
 
