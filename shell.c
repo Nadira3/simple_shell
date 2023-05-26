@@ -55,6 +55,7 @@ int main(int ac, char **av, char **env)
 				write(2, ": 1: ", 5);
 				write(2, arg_tokens[0], _strlen(arg_tokens[0]));
 				write(2, ": not found\n", 12);
+				exit(127);
 			}
 		}
 		else
