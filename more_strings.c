@@ -2,22 +2,22 @@
 /**
  * _strtok - tokenizes a string
  * @str: string to be separated
- * @delimiter: list of characters used to separate strings
+ * @delim: list of characters used to separate strings
  * Return: pointer to tokenized string
  */
 char *_strtok(char *str, char *delim)
 {
-	static char *ptr = NULL;
+	static char *ptr;
 	int i, j;
 	int str_len, delim_len;
 	int found_delim = 0;
 
-	if (str != NULL) 
+	if (str != NULL)
 		ptr = str;
 	else
 	{
 		if (ptr == NULL)
-			return NULL;
+			return (NULL);
 		str = ptr;
 	}
 	str_len = _strlen(str);
@@ -34,15 +34,15 @@ char *_strtok(char *str, char *delim)
 				break;
 			}
 		}
-		if (found_delim) 
+		if (found_delim)
 		{
 			found_delim = 0;
 			break;
 		}
 	}
 
-	ptr = (i < str_len) ? &str[i + 1] : NULL;
-	return str;
+	ptr = (i < str_len) ? &str[i + 1] : (NULL);
+	return (str);
 }
 
 /**
