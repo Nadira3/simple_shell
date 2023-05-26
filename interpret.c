@@ -1,4 +1,11 @@
 #include "main.h"
+/**
+ * _strncmp - compares to string to check if they are an exact match
+ * @str1: first string
+ * @str2: second string
+ * @len: String length
+ * Return: 1 if strings match, otherwise 0
+ */
 int _strncmp(char *str1, char *str2, size_t len)
 {
 	char *ptr1 = str1, *ptr2 = str2;
@@ -41,7 +48,7 @@ int _strcmp(char *str1, char *str2)
 }
 /**
  * interpret_func - interpretes the tokenized string by separating into
- * command and arguments and finding its corresponding path and/or 
+ * command and arguments and finding its corresponding path and/or
  * executable if it exists
  * @arg_command: array of command-line input in tokenized form
  * Return: pointer to built-in function if present or NULL
@@ -85,7 +92,7 @@ char setenv_func(char **arg_tokens)
 		i++;
 	}
 	env[i] = malloc(key_len + value_len + 3);
-	if(!env[i])
+	if (!env[i])
 		return (0);
 	_strcpy(env[i], env_key);
 	_strcat(env[i], "=");
@@ -93,4 +100,33 @@ char setenv_func(char **arg_tokens)
 	i++;
 	env[i] = NULL;
 	return (1);
+}
+
+/**
+ * exitcheck - exit builtin implementation
+ * @arg_tokens: array of arguments
+ * @buf: buffer containing input stream
+ * @i: size of buffer
+ * @flag: checks for the return value of exit
+ * Return: 0 if no argument is passed, argument valie otherwise
+ */
+int exitcheck(char **arg_tokens, char *buf, int i, int *flag)
+{
+	int j;
+
+	if (_strcmp(arg_tokens[0], "exit"))
+	{
+		if (arg_tokens[1] != NULL)
+		{
+			j = _atoi(arg_tokens[1]);
+			free_buf(arg_tokens, i);
+			free(buf);
+			return (j);
+		}
+		free(buf);
+		free_buf(arg_tokens, i);
+		*flag = 1;
+		return (1);
+	}
+	return (0);
 }

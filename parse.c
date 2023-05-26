@@ -1,5 +1,10 @@
 #include "main.h"
 
+/**
+ * path - Path to navigate to
+ * @command: Path to redirect to
+ * Return: NULL if error, path if not
+ */
 char *path(char *command)
 {
 	char *filepath = _getenv("PATH"), *env_path = NULL;
@@ -55,12 +60,12 @@ char **parse_input(char *user_input)
 	if (!user_input_array)
 		return (0);
 	while (*start_to_write)
-	{ 
+	{
 		start_to_write = skip_spaces(start_to_write);
 		if (*start_to_write == '\0')
 			break;
 		len = wordlen(start_to_write);
-		user_input_array[i] = malloc(len + 1); 
+		user_input_array[i] = malloc(len + 1);
 		if (!user_input_array[i])
 		{
 			for (j = i; j > 0; j--)
@@ -68,6 +73,7 @@ char **parse_input(char *user_input)
 			free(user_input_array);
 			return (0);
 		}
+
 		ptr = start_to_write;
 		if (*(ptr - 1) == ' ' && *ptr == '#' && *(ptr + 1) && *(ptr + 1) == ' ')
 		{
@@ -75,66 +81,12 @@ char **parse_input(char *user_input)
 			break;
 		}
 		_strcpyp(user_input_array[i], start_to_write); 
+
+		
+
 		start_to_write += len;
 		i++;
 	}
 	user_input_array[i] = NULL;
 	return (user_input_array);
 }
-/**
- * _getline - gets a line of input from a file stream
- * @lineptr: pointer to array of words
- * @n: pointer to array containing lenght of buffer
- * @stream: file stream
- */
-/**ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
-{
-	size_t num_copied = 0;
-	
-	if (*n <= 0)
-		return (1);
-
-	while (*stream != '\n')
-	{
-		**lineptr = *stream;
-		*lineptr++;
-		stream++;
-		num_copied++;
-
-		if (num_copied == *n)
-		{
-			char **temp_buf = malloc(*n);
-			if (temp_buf == NULL)
-				return (-1);
-
-			size_t i = 0;
-			// Save in temp_buf
-			while (i < *n)
-			{
-				**temp_buf = **lineptr;
-				*temp_buf++;
-				*lineptr++;
-				i++;
-			}
-			// Increase buff and copy from temp to buff
-			
-			**lineptr = malloc(*n * 2);
-
-			if (lineptr == NULL)
-				return (-1);
-
-			size_t j = 0;
-			while (j < n)
-			{
-				**lineptr = **temp_buf;
-				*temp_buf++;
-				*lineptr++;
-				j++;
-			}
-			free(temp_buf);
-		}
-	}
-	lineptr[num_copied + 1] = '\n';
-	*n = num_copied;
-	return (*n);
-}*/
