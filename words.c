@@ -108,3 +108,18 @@ char *_getenv(char *key)
 	}
 	return (NULL);
 }
+/**
+ * _isnumber - checks if a string is a number
+ * @c: string
+ * Return: 0 or 1
+ */
+int _isnumber(char *c)
+{
+	while (*c)
+	{
+		if (*c < '0' || *c > '9')
+			return (0);
+		c++;
+	}
+	return (1);
+}

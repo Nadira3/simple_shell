@@ -2,14 +2,13 @@
 /**
  * free_buf - frees the array of command-argument pair
  * @buf: array
- * @size: size of array
  */
-void free_buf(char **buf, int size)
+void free_buf(char **buf)
 {
-	int j = size;
+	int j = 0;
 
-	while (j >= 0)
-		free(buf[j--]);
+	while (buf[j])
+		free(buf[j++]);
 	free(buf);
 }
 /**

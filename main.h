@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <sys/wait.h>
+#include <signal.h>
 #define BUFSIZE 50
 extern char **environ;
 char *buf;
@@ -43,12 +44,13 @@ char *_strdup(char *str);
 char *_getenv(char *key);
 int _atoi(char *s);
 char *_strtok(char *str, char *delim);
-void free_buf(char **buf, int size);
+void free_buf(char **buf);
 int bufcheck(char *buf);
 int readcheck(int n, char *buf, int is_terminal);
-int exitcheck(char **arg_tokens, char *buf, int i, int *flag);
+int exitcheck(char **arg_tokens, char *buf, int *flag);
 int execute(char *filepath, char **arg_tokens, char **env);
 int _putchar(char c);
 int _puts(char *str);
 char setenv_func(char **arg);
+int _isnumber(char *c);
 #endif

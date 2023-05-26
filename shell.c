@@ -22,7 +22,7 @@ void sig_handler(int signum)
  */
 int main(int ac __attribute__((unused)), char **av, char **env)
 {
-	int i, n = 0, j, flag = 0, is_terminal = isatty(STDIN_FILENO), exit_ = 0;
+	int n = 0, j, flag = 0, is_terminal = isatty(STDIN_FILENO), exit_ = 0;
 	char *p = "$ ", **arg = NULL, (*fun)(char **arg), *name = av[0], *pth = NULL;
 	size_t arr_size = 0;
 
@@ -38,11 +38,13 @@ int main(int ac __attribute__((unused)), char **av, char **env)
 			continue;
 		buf[n - 1] = '\0';
 		arg = parse_input(buf);
-		if (!arg)
-			perror(name);
-		i = num_words(buf);
+		if (!arg[0])
+		{
+			free_buf(arg);
+			continue;
+		}
 		pth = path(arg[0]);
-		j = exitcheck(arg, buf, i, &flag);
+		j = exitcheck(arg, buf, &flag);
 		if (j)
 			return (flag ? exit_ : j);
 		if (!pth)
@@ -56,7 +58,7 @@ int main(int ac __attribute__((unused)), char **av, char **env)
 		else
 			exit_ = execute(pth, arg, env);
 		free(pth);
-		free_buf(arg, i);
+		free_buf(arg);
 	}
 	free(buf);
 	return (0);

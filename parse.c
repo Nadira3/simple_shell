@@ -11,6 +11,8 @@ char *path(char *command)
 	char *path_copy = _strdup(filepath), *token = _strtok(path_copy, ":");
 	size_t env_path_len;
 
+	if (!command)
+		return (NULL);
 	while (token != NULL)
 	{
 		if (*command == '/' || *command == '.')
@@ -62,7 +64,7 @@ char **parse_input(char *user_input)
 	while (*start_to_write)
 	{
 		start_to_write = skip_spaces(start_to_write);
-		if (*start_to_write == '\0')
+		if (*start_to_write == '\0' || *start_to_write == '#')
 			break;
 		len = wordlen(start_to_write);
 		user_input_array[i] = malloc(len + 1);

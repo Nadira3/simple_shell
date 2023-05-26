@@ -34,6 +34,8 @@ int _strcmp(char *str1, char *str2)
 {
 	char *ptr1 = str1, *ptr2 = str2;
 
+	if (!str1 || !str2)
+		return (0);
 	if (ptr1 && ptr2)
 	{
 		while (*ptr1 || *ptr2)
@@ -45,29 +47,6 @@ int _strcmp(char *str1, char *str2)
 		}
 	}
 	return (1);
-}
-/**
- * interpret_func - interpretes the tokenized string by separating into
- * command and arguments and finding its corresponding path and/or
- * executable if it exists
- * @arg_command: array of command-line input in tokenized form
- * Return: pointer to built-in function if present or NULL
- */
-char (*interpret_func(char *arg_command))(char **arg)
-{
-	var_func interpreted_command[] = {
-		{"setenv", setenv_func},
-		{NULL, NULL}
-	};
-	int i = 0;
-
-	while (interpreted_command[i].str)
-	{
-		if ((_strcmp(arg_command, interpreted_command[i].str)))
-			return (interpreted_command[i].func_ptr);
-		i++;
-	}
-	return (interpreted_command[i].func_ptr);
 }
 /**
  * setenv_func - setenv builtin implementation
@@ -106,27 +85,61 @@ char setenv_func(char **arg_tokens)
  * exitcheck - exit builtin implementation
  * @arg_tokens: array of arguments
  * @buf: buffer containing input stream
- * @i: size of buffer
  * @flag: checks for the return value of exit
  * Return: 0 if no argument is passed, argument valie otherwise
  */
-int exitcheck(char **arg_tokens, char *buf, int i, int *flag)
+int exitcheck(char **arg_tokens, char *buf, int *flag)
 {
 	int j;
+	char *err = "./hsh: 1: exit: Illegal number: ";
 
 	if (_strcmp(arg_tokens[0], "exit"))
 	{
 		if (arg_tokens[1] != NULL)
 		{
-			j = _atoi(arg_tokens[1]);
-			free_buf(arg_tokens, i);
-			free(buf);
-			return (j);
+			if (arg_tokens[1][0] != '-' && _isnumber(arg_tokens[1]))
+			{
+				j = _atoi(arg_tokens[1]);
+				free_buf(arg_tokens);
+				free(buf);
+				exit(j);
+			}
+			else
+			{
+				write(STDERR_FILENO, err, _strlen(err));
+				write(STDERR_FILENO, arg_tokens[1], _strlen(arg_tokens[1]));
+				write(STDERR_FILENO, "\n", 1);
+				free_buf(arg_tokens);
+				free(buf);
+				exit(2);
+			}
 		}
 		free(buf);
-		free_buf(arg_tokens, i);
+		free_buf(arg_tokens);
 		*flag = 1;
 		return (1);
 	}
 	return (0);
+}
+/**
+ * interpret_func - interpretes the tokenized string by separating into
+ * command and arguments and finding its corresponding path and/or
+ * executable if it exists
+ * @arg_command: array of command-line input in tokenized form
+ * Return: pointer to built-in function if present or NULL
+ */
+char (*interpret_func(char *arg_command))(char **arg)
+{
+	var_func interpreted_command[] = {
+		{"setenv", setenv_func},
+		{NULL, NULL}};
+	int i = 0;
+
+	while (interpreted_command[i].str)
+	{
+		if ((_strcmp(arg_command, interpreted_command[i].str)))
+			return (interpreted_command[i].func_ptr);
+		i++;
+	}
+	return (interpreted_command[i].func_ptr);
 }
