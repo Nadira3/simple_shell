@@ -74,7 +74,7 @@ char **parse_input(char *user_input)
 			return (0);
 		}
 
-		_strcpyp(user_input_array[i], start_to_write); 
+		_strcpyp(user_input_array[i], start_to_write);
 		start_to_write += len;
 		i++;
 	}

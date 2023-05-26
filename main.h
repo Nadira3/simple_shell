@@ -24,6 +24,7 @@ typedef struct env_var
 } env_list;
 char *skip_spaces(char *str);
 char **parse_input(char *user_input);
+void getlinecheck(int n, char *buf);
 char *path(char *command);
 void sig_handler(int signum);
 void sigquitHandler(int signum);

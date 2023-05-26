@@ -22,60 +22,58 @@ void sig_handler(int signum)
  */
 int main(int ac, char **av, char **env)
 {
-	int i, j, flag = 0, is_terminal = isatty(STDIN_FILENO), exit_ = 0;
-	char *prompt = "$ ", *ptr = prompt, **arg_tokens = NULL;
-	char (*builtin_func)(char **arg), *prog_name = av[0], *filepath = NULL;
-	ssize_t n = 0;
+	int i, n = 0, j, flag = 0, is_terminal = isatty(STDIN_FILENO), exit_ = 0;
+	char *p = "$ ", **arg = NULL, (*fun)(char **arg), *name = av[0], *pth = NULL;
 	size_t arr_size = 0;
-	(void)ac;
 
 	signal(SIGINT, sig_handler);
 	buf = NULL;
 	while (1)
 	{
 		if (is_terminal)
-			_puts(ptr);
+			_puts(p);
 		n = getline(&buf, &arr_size, stdin);
-		if (n == -1)
-		{
-			free(buf);
-			exit(EXIT_SUCCESS);
-		}
+		getlinecheck(n, buf);
 		if (bufcheck(buf))
 			continue;
 		buf[n - 1] = '\0';
-		arg_tokens = parse_input(buf);
-		if (!arg_tokens)
-			perror(prog_name);
+		arg = parse_input(buf);
+		if (!arg)
+			perror(name);
 		i = num_words(buf);
-		filepath = path(arg_tokens[0]);
-		j = exitcheck(arg_tokens, buf, i, &flag);
+		pth = path(arg[0]);
+		j = exitcheck(arg, buf, i, &flag);
 		if (j)
 			return (flag ? exit_ : j);
-		if (!filepath)
+		if (!pth)
 		{
-			builtin_func = interpret_func(arg_tokens[0]);
-			if (builtin_func)
-				builtin_func(arg_tokens);
+			fun = interpret_func(arg[0]);
+			if (fun)
+				fun(arg);
 			else
-			{
-				write(2, prog_name, _strlen(prog_name));
-				write(2, ": 1: ", 5);
-				write(2, arg_tokens[0], _strlen(arg_tokens[0]));
-				write(2, ": not found\n", 12);
-				exit(127);
-			}
+				perror(name);
 		}
 		else
-			exit_ = execute(filepath, arg_tokens, env);
-		free(filepath);
-		ptr = prompt;
-		free_buf(arg_tokens, i);
+			exit_ = execute(pth, arg, env);
+		free(pth);
+		free_buf(arg, i);
 	}
 	free(buf);
 	return (0);
 }
-
+/**
+ * getlinecheck - checks the return value of getline
+ * @n: return value
+ * @buf: memory management
+ */
+void getlinecheck(int n, char *buf)
+{
+	if (n == -1)
+	{
+		free(buf);
+		exit(EXIT_SUCCESS);
+	}
+}
 /**
  * get_pid_and_return_value - Expand $$ and $? variable arguments
  * @commandpattern: Variable pattern to expand
