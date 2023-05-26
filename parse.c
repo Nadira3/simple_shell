@@ -53,7 +53,7 @@ char *path(char *command)
  */
 char **parse_input(char *user_input)
 {
-	char **user_input_array = NULL, *start_to_write = user_input, *ptr;
+	char **user_input_array = NULL, *start_to_write = user_input;
 	int i = 0, j, len;
 
 	user_input_array = malloc(sizeof(char *) * (num_words(user_input) + 1));
@@ -74,16 +74,7 @@ char **parse_input(char *user_input)
 			return (0);
 		}
 
-		ptr = start_to_write;
-		if (*(ptr - 1) == ' ' && *ptr == '#' && *(ptr + 1) && *(ptr + 1) == ' ')
-		{
-			i++;
-			break;
-		}
 		_strcpyp(user_input_array[i], start_to_write); 
-
-		
-
 		start_to_write += len;
 		i++;
 	}
