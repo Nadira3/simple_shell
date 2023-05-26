@@ -55,17 +55,10 @@ int main(int ac, char **av, char **env)
 				write(2, ": 1: ", 5);
 				write(2, arg_tokens[0], _strlen(arg_tokens[0]));
 				write(2, ": not found\n", 12);
-				free_buf(arg_tokens, i);
-				free(buf);
-				exit(EXIT_FAILURE);
 			}
 		}
 		else
-		{
 			exit_ = execute(filepath, arg_tokens, env);
-			if (!exit_)
-				perror(prog_name);
-		}
 		free(filepath);
 		ptr = prompt;
 		free_buf(arg_tokens, i);
