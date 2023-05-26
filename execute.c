@@ -82,7 +82,8 @@ int exitcheck(char **arg_tokens, char *buf, int i, int *flag)
 int execute(char *filepath, char **arg_tokens, char **env)
 {
 	pid_t my_pid;
-	int status;
+	pid_t child_pid;
+	int status, exit_status;
 
 	if (filepath)
 	{
@@ -95,8 +96,16 @@ int execute(char *filepath, char **arg_tokens, char **env)
 		else if (my_pid == -1)
 			return (0);
 		else
-			wait(&status);
-		return (1);
+		{
+			child_pid = waitpid(my_pid, &status, 0);
+			if (child_pid == -1)
+				return (0);
+			if (WIFEXITED(status))
+            			exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+            			exit_status = WTERMSIG(status);
+		}
+		return (exit_status);
 	}
 	return (1);
 }

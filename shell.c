@@ -15,7 +15,7 @@ void sig_handler(int signum)
  */
 int main(int ac, char **av, char **env)
 {
-	int i, j, flag = 0, is_terminal = isatty(STDIN_FILENO);
+	int i, j, flag = 0, is_terminal = isatty(STDIN_FILENO), exit_ = 0;
 	char *prompt = "$ ", *ptr = prompt, **arg_tokens = NULL;
 	char (*builtin_func)(char **arg), *prog_name = av[0], *filepath = NULL;
 	ssize_t n = 0;
@@ -43,24 +43,28 @@ int main(int ac, char **av, char **env)
 		filepath = path(arg_tokens[0]);
 		j = exitcheck(arg_tokens, buf, i, &flag);
 		if (j)
-			return (flag ? 0 : j);
-		if (filepath)
-		{
-			if (!(execute(filepath, arg_tokens, env)))
-				perror(prog_name);
-		}
-		else
+			return (flag ? exit_ : j);
+		if (!filepath)
 		{
 			builtin_func = interpret_func(arg_tokens[0]);
 			if (builtin_func)
 				builtin_func(arg_tokens);
 			else
 			{
+				write(2, prog_name, _strlen(prog_name));
+				write(2, ": 1: ", 5);
+				write(2, arg_tokens[0], _strlen(arg_tokens[0]));
+				write(2, ": not found\n", 12);
 				free_buf(arg_tokens, i);
 				free(buf);
-				perror(prog_name);
 				exit(EXIT_FAILURE);
 			}
+		}
+		else
+		{
+			exit_ = execute(filepath, arg_tokens, env);
+			if (!exit_)
+				perror(prog_name);
 		}
 		free(filepath);
 		ptr = prompt;
