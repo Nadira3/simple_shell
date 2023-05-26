@@ -30,6 +30,7 @@ int wordlen(char *str)
 char *_strcpy(char *str1, char *str2)
 {
 	char *ptr1 = str1, *ptr2 = str2;
+
 	while (*ptr2)
 	{
 		*ptr1 = *ptr2;
@@ -48,6 +49,7 @@ char *_strcpy(char *str1, char *str2)
 char *_strcpyp(char *str1, char *str2)
 {
 	char *ptr1 = str1, *ptr2 = str2;
+
 	while (*ptr2 && *ptr2 != ' ')
 	{
 		*ptr1 = *ptr2;

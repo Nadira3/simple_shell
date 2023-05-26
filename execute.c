@@ -45,34 +45,6 @@ int readcheck(int n, char *buf, int is_terminal)
 	return (0);
 }
 /**
- * exitcheck - exit builtin implementation
- * @arg_tokens: array of arguments
- * @buf: buffer containing input stream
- * @i: size of buffer
- * @flag: checks for the return value of exit
- * Return: 0 if no argument is passed, argument valie otherwise
- */
-int exitcheck(char **arg_tokens, char *buf, int i, int *flag)
-{
-	int j;
-
-	if (_strcmp(arg_tokens[0], "exit"))
-	{
-		if (arg_tokens[1] != NULL)
-		{
-			j = _atoi(arg_tokens[1]);
-			free_buf(arg_tokens, i);
-			free(buf);
-			return (j);
-		}
-		free(buf);
-		free_buf(arg_tokens, i);
-		*flag = 1;
-		return (1);
-	}
-	return (0);
-}
-/**
  * execute - handles command execution
  * @filepath: filepath
  * @arg_tokens: array of arguments
@@ -94,16 +66,18 @@ int execute(char *filepath, char **arg_tokens, char **env)
 				return (0);
 		}
 		else if (my_pid == -1)
+		{
 			return (0);
+		}
 		else
 		{
 			child_pid = waitpid(my_pid, &status, 0);
 			if (child_pid == -1)
 				return (0);
 			if (WIFEXITED(status))
-            			exit_status = WEXITSTATUS(status);
+				exit_status = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
-            			exit_status = WTERMSIG(status);
+				exit_status = WTERMSIG(status);
 		}
 		return (exit_status);
 	}
@@ -118,6 +92,7 @@ int execute(char *filepath, char **arg_tokens, char **env)
 char *changedir(char *path)
 {
 	char *prev_dir = NULL;
+
 	if (*path == '-')
 	{
 		prev_dir = _getenv("PWD");
@@ -127,29 +102,10 @@ char *changedir(char *path)
 	else
 	{
 		char *currentpath = getcwd(NULL, 128);
+
 		setenv_func(&currentpath);
 		if (!chdir(path))
 			return (0);
 	}
 	return (0);
 }
-
-/**
- * get_pid_and_return_value - Expand $$ and $? variable arguments
- * @commandpattern: Variable pattern to expand
- * Return: Int represent parent ID or last return value
- *
-int get_pid_and_return_value(char *commandpattern)
-{
-	if (_strcmp(commandpattern, "$$"))
-	{
-		pid_t parentpid = getppid();
-		return (parentpid);
-	}
-	else if (_strcmp(commandpattern, "$?"))
-	{
-		int processreturnvalue;
-		return (processreturnvalue);
-	}
-	return (1);
-}*/

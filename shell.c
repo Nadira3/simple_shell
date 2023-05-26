@@ -1,5 +1,9 @@
 #include "main.h"
-char *buf;
+
+/**
+ * sig_handler - Handle signal
+ * @signum: Signal number
+ */
 void sig_handler(int signum)
 {
 	(void)signum;
@@ -11,6 +15,9 @@ void sig_handler(int signum)
 }
 /**
  * main - entry point of thr program
+ * @ac: Argument count
+ * @av: Argument value
+ * @env: Environment to use
  * Return: 0
  */
 int main(int ac, char **av, char **env)
@@ -37,7 +44,8 @@ int main(int ac, char **av, char **env)
 		if (bufcheck(buf))
 			continue;
 		buf[n - 1] = '\0';
-		if (!(arg_tokens = parse_input(buf)))
+		arg_tokens = parse_input(buf);
+		if (!arg_tokens)
 			perror(prog_name);
 		i = num_words(buf);
 		filepath = path(arg_tokens[0]);
@@ -66,4 +74,23 @@ int main(int ac, char **av, char **env)
 	}
 	free(buf);
 	return (0);
+}
+
+/**
+ * get_pid_and_return_value - Expand $$ and $? variable arguments
+ * @commandpattern: Variable pattern to expand
+ *
+ * Return: Int represent parent ID or last return value
+ */
+int get_pid_and_return_value(char *commandpattern)
+{
+	if (_strcmp(commandpattern, "$$"))
+	{
+		return (getppid());
+	}
+	else if (_strcmp(commandpattern, "$?"))
+	{
+		return (0);
+	}
+	return (1);
 }

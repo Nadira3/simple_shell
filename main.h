@@ -9,6 +9,7 @@
 #include <sys/wait.h>
 #define BUFSIZE 50
 extern char **environ;
+char *buf;
 typedef struct var
 {
 	char *str;
