@@ -16,10 +16,12 @@ int _putchar(char c)
  */
 int _puts(char *str)
 {
-	while (*str)
+	int i = 0;
+
+	while (str[i])
 	{
-		_putchar(*str);
-		str++;
+		_putchar(str[i]);
+		i++;
 	}
 	return (0);
 }
