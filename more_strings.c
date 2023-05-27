@@ -79,6 +79,9 @@ char env_func(char **arg)
 	(void)arg;
 
 	for (i = 0; env_[i]; i++)
+	{
 		_puts(env_[i]);
+		_putchar(10);
+	}
 	return (0);
 }
