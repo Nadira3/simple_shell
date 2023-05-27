@@ -74,9 +74,9 @@ char *_strdup(char *str)
  */
 char env_func(char **arg)
 {
-	(void)arg;
-	char **env_ = environ;
 	int i;
+	char **env_ = environ;
+	(void)arg;
 
 	for (i = 0; env_[i]; i++)
 		_puts(env_[i]);
